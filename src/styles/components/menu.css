@@ -1,0 +1,226 @@
+/* ============================================
+MENU — Full-screen overlay + mini nav
+============================================ */
+
+/* Full-screen menu overlay */
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+  background: var(--tah-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.menu-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.menu-overlay__inner {
+  text-align: center;
+  color: #ffffff;
+  max-width: 600px;
+  padding: var(--tah-spacing-xl);
+}
+
+.menu-overlay__logo {
+  height: 64px;
+  width: auto;
+  margin: 0 auto var(--tah-spacing-xl);
+  filter: brightness(0) invert(1);
+}
+
+.menu-overlay__links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tah-spacing-md);
+  margin-bottom: var(--tah-spacing-xl);
+}
+
+.menu-overlay__links a {
+  display: inline-block;
+  font-family: var(--tah-font-serif);
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  padding: var(--tah-spacing-sm) var(--tah-spacing-md);
+  position: relative;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              color var(--tah-transition);
+}
+
+.menu-overlay__links a:hover {
+  color: #ffffff;
+  transform: translateX(4px);
+}
+
+.menu-overlay__links a.active {
+  color: #ffffff;
+}
+
+.menu-overlay__links a.active::before {
+  content: '→';
+  position: absolute;
+  left: -1.5em;
+  color: var(--tah-secondary);
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 0.3s ease 0.05s, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.05s;
+}
+
+.menu-overlay__links a.active.show-arrow::before {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.menu-overlay.open .menu-overlay__links a {
+  opacity: 0.7;
+  transform: translateY(0);
+}
+
+.menu-overlay.open .menu-overlay__links a:hover {
+  opacity: 1;
+}
+
+.menu-overlay.open .menu-overlay__links a.active {
+  opacity: 1;
+}
+
+/* Stagger delays — links cascade in */
+.menu-overlay.open .menu-overlay__links a:nth-child(1) { transition-delay: 0.08s; }
+.menu-overlay.open .menu-overlay__links a:nth-child(2) { transition-delay: 0.14s; }
+.menu-overlay.open .menu-overlay__links a:nth-child(3) { transition-delay: 0.20s; }
+.menu-overlay.open .menu-overlay__links a:nth-child(4) { transition-delay: 0.26s; }
+.menu-overlay.open .menu-overlay__links a:nth-child(5) { transition-delay: 0.32s; }
+.menu-overlay.open .menu-overlay__links a:nth-child(6) { transition-delay: 0.38s; }
+
+/* Logo + footer fade-in alongside the links */
+.menu-overlay__logo,
+.menu-overlay__footer {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.menu-overlay.open .menu-overlay__logo {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.02s;
+}
+
+.menu-overlay.open .menu-overlay__footer {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.44s;
+}
+
+.menu-overlay__footer {
+  font-size: var(--tah-font-size-small);
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: var(--tah-spacing-xl);
+}
+
+/* ============================================
+MINI NAV — Compact in-page nav bar
+============================================ */
+
+.mini-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  /* Above the menu overlay (z-index 1050) so X stays clickable when overlay is open */
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--tah-spacing-md) var(--tah-spacing-lg);
+  background: rgba(255, 255, 255, 0);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mini-nav.scrolled {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 rgba(15, 23, 42, 0.06);
+}
+
+.mini-nav__logo {
+  height: 36px;
+  width: auto;
+  /* White over dark hero, natural color when nav gets white background */
+  filter: brightness(0) invert(1);
+  transition: filter 0.3s ease;
+}
+
+.mini-nav.scrolled .mini-nav__logo {
+  filter: none;
+}
+
+.mini-nav__trigger {
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: var(--tah-radius-full);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  position: relative;
+  z-index: 1100;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.mini-nav__trigger:hover {
+  border-color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.mini-nav__trigger span {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background: #ffffff;
+  transform: translateY(1px);
+  transition: transform 0.3s ease, opacity 0.3s ease, background 0.3s ease;
+}
+
+.mini-nav.scrolled .mini-nav__trigger {
+  border-color: rgba(15, 23, 42, 0.1);
+  background: transparent;
+}
+
+.mini-nav.scrolled .mini-nav__trigger:hover {
+  border-color: rgba(15, 23, 42, 0.25);
+  background: rgba(15, 23, 42, 0.04);
+}
+
+.mini-nav.scrolled .mini-nav__trigger span {
+  background: var(--tah-text);
+}
+
+/* X animation — lines converge to center, then rotate */
+.mini-nav__trigger.active span:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+
+.mini-nav__trigger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.mini-nav__trigger.active span:nth-child(3) {
+  transform: translateY(-4.5px) rotate(-45deg);
+}

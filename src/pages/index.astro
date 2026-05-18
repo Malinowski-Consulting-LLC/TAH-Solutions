@@ -1,0 +1,126 @@
+---
+/**
+ * Home page — index.astro
+ * Hero (full-height with logo + tagline), statement, values grid,
+ * services list, stats, and final CTA.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Button from '../components/Button.astro';
+import { SERVICES, STATS, SITE } from '../consts';
+---
+
+<BaseLayout
+  title="EMS Clinical Infrastructure Consulting"
+  description="TAH Solutions helps EMS agencies build evidence-based protocol programs, implement QA/QI systems, and reduce clinical and legal liability."
+  ogImage="/images/header-section-home.webp"
+>
+  <h1 class="visually-hidden">TAH Solutions: EMS clinical infrastructure consulting</h1>
+
+  <Hero
+    variant="home"
+    showLogo={true}
+    showDivider={true}
+    tagline="Building clinical infrastructure<br>for <em>EMS</em>"
+    body="We help EMS agencies and medical directors close the gap between written protocols and an operationalized standard of care."
+  >
+    <Fragment slot="actions">
+      <Button href={`${import.meta.env.BASE_URL}/checklist`} variant="accent" size="lg">Get the Free Checklist</Button>
+      <Button href={`${import.meta.env.BASE_URL}/contact`} variant="outline" size="lg">Schedule a Consultation</Button>
+    </Fragment>
+  </Hero>
+
+  <section class="statement">
+    <div class="container">
+      <div class="statement__inner reveal">
+        <p class="text-label" style="margin-bottom: var(--tah-spacing-md);">Why We Exist</p>
+        <hr class="divider">
+        <p class="statement__text">The gap between what&rsquo;s <em>on paper</em> and what&rsquo;s <em>in practice</em> is where agencies find their greatest risk. It&rsquo;s also where their greatest opportunity lives.</p>
+        <p style="color: var(--tah-text-secondary); max-width: 560px; line-height: 1.7; margin: 0 auto;">Protocols alone don&rsquo;t protect patients or providers. Without a structured program (QA/QI feedback loops, regular review cycles, measurable standards), even the best protocols drift into irrelevance. We build the infrastructure that keeps them alive.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="values">
+    <div class="container">
+      <p class="text-label reveal" style="margin-bottom: var(--tah-spacing-xl); text-align: center;">What We Deliver</p>
+      <div class="values__grid reveal-stagger">
+        <div class="values__item">
+          <div class="values__number">01</div>
+          <h3 class="values__title">Evidence-Based Protocols</h3>
+          <p class="values__desc">Full evaluation against NAEMSP/AHA guidelines and current EMS literature. Prioritized findings with risk assessment and revision recommendations.</p>
+        </div>
+        <div class="values__item">
+          <div class="values__number">02</div>
+          <h3 class="values__title">Operational QA/QI</h3>
+          <p class="values__desc">Quality assurance and improvement infrastructure that measures trends, drives clinical improvement, and establishes a standard of care review process.</p>
+        </div>
+        <div class="values__item">
+          <div class="values__number">03</div>
+          <h3 class="values__title">Ongoing Clinical Leadership</h3>
+          <p class="values__desc">Monthly protocol review, QA/QI data trend reporting, and medical director communication coordination through our retainer program.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="services-list section-with-watermark">
+    <div class="section-watermark" aria-hidden="true">S</div>
+    <div class="container">
+      <p class="text-label reveal" style="margin-bottom: var(--tah-spacing-md); text-align: center;">Our Services</p>
+      <h2 class="reveal" style="font-family: var(--tah-font-serif); margin-bottom: var(--tah-spacing-xxl); text-align: center;">How We Help</h2>
+
+      <div class="reveal-stagger">
+        {SERVICES.map((s) => (
+          <div class="services-list__item">
+            <div class="services-list__number">{s.number}</div>
+            <div>
+              <h3 class="services-list__title">{s.title}</h3>
+              <p class="services-list__desc">{s.short}</p>
+              <a href={`${import.meta.env.BASE_URL}/services#${s.id}`} class="services-list__link">Learn More</a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="container">
+      <div class="stats__grid reveal-stagger">
+        {STATS.map((stat) => {
+          // Parse the stat number — supports "$0", "0", "10" etc.
+          // Strips non-numeric prefix, animates the numeric portion, preserves suffix.
+          const match = stat.number.match(/^(\D*)(\d+(?:\.\d+)?)(.*)$/);
+          const prefix = match ? match[1] : '';
+          const target = match ? match[2] : stat.number;
+          const suffix = match ? match[3] : '';
+          const decimals = (target.split('.')[1] || '').length;
+          return (
+            <div>
+              <div
+                class="stat__number"
+                data-count={target}
+                data-count-prefix={prefix}
+                data-count-suffix={suffix}
+                data-count-decimals={decimals}
+              >{stat.number}</div>
+              <div class="stat__label">{stat.label}</div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-block">
+    <div class="container">
+      <p class="text-label reveal" style="color: var(--tah-secondary); margin-bottom: var(--tah-spacing-md);">Get Started</p>
+      <h2 class="reveal reveal--d1">Not sure where to start?</h2>
+      <p class="reveal reveal--d2">Take our free 20-question Protocol Gap Audit Checklist. In under 10 minutes, you&rsquo;ll have a clear picture of where your agency stands.</p>
+      <div class="reveal reveal--d3" style="margin-top: var(--tah-spacing-xl);">
+        <Button href={`${import.meta.env.BASE_URL}/checklist`} variant="accent" size="lg">Download the Free Checklist</Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,109 @@
+---
+/**
+ * ChecklistForm.astro
+ * Free PDF checklist download. Form-gated delivery — user fills out
+ * the form, submits to Google Forms, and the Apps Script auto-responder
+ * emails the PDF to the address provided.
+ *
+ * Client-side validation is handled by `scripts/form-validation.ts`.
+ */
+import { GOOGLE_FORMS, googleFormActionUrl } from '../consts';
+
+const formId = 'checklist';
+const action = googleFormActionUrl(GOOGLE_FORMS.checklist.formId);
+const entries = GOOGLE_FORMS.checklist.entries;
+const iframeName = `hidden_iframe_${formId}`;
+const pdfUrl = '/assets/TAH_Solutions_Protocol_Gap_Audit_Checklist_June26.pdf';
+---
+
+<div class="landing-form">
+  <h2 style="font-family: var(--tah-font-serif); margin-bottom: var(--tah-spacing-sm); font-size: var(--tah-font-size-h4);">Download the Checklist</h2>
+  <p style="font-size: var(--tah-font-size-small); color: var(--tah-text-secondary); margin-bottom: var(--tah-spacing-xl);">Free. No commitment. Delivered to your inbox in seconds.</p>
+
+  <div class="form-error-summary" role="alert" data-form-summary={formId} hidden>
+    <p>Please fix the errors below and try again.</p>
+  </div>
+
+  <iframe name={iframeName} id={iframeName} style="display:none;" title="hidden submission target" aria-hidden="true"></iframe>
+
+  <form
+    action={action}
+    method="POST"
+    target={iframeName}
+    onsubmit={`return tahValidate(event, '${formId}', ['name','email','agency','role']);`}
+    data-form={formId}
+    novalidate
+  >
+    <div class="form-group">
+      <label class="form-label form-required" for="checklist-name">Full Name</label>
+      <input
+        type="text"
+        id="checklist-name"
+        name={`entry.${entries.name}`}
+        class="form-input"
+        data-field="name"
+        required
+        autocomplete="name"
+        maxlength="100"
+        aria-describedby="checklist-name-error"
+      >
+      <div class="field-error" id="checklist-name-error" data-field-error="name" role="alert" hidden></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label form-required" for="checklist-email">Email</label>
+      <input
+        type="email"
+        id="checklist-email"
+        name={`entry.${entries.email}`}
+        class="form-input"
+        data-field="email"
+        required
+        autocomplete="email"
+        maxlength="254"
+        aria-describedby="checklist-email-error"
+      >
+      <div class="field-error" id="checklist-email-error" data-field-error="email" role="alert" hidden></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="checklist-agency">Agency Name <span style="color: var(--tah-text-muted); font-weight: 400;">(optional)</span></label>
+      <input
+        type="text"
+        id="checklist-agency"
+        name={`entry.${entries.agency}`}
+        class="form-input"
+        data-field="agency"
+        autocomplete="organization"
+        maxlength="200"
+        aria-describedby="checklist-agency-error"
+      >
+      <div class="field-error" id="checklist-agency-error" data-field-error="agency" role="alert" hidden></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="checklist-role">Your Role <span style="color: var(--tah-text-muted); font-weight: 400;">(optional)</span></label>
+      <select
+        id="checklist-role"
+        name={`entry.${entries.role}`}
+        class="form-select"
+        data-field="role"
+        aria-describedby="checklist-role-error"
+      >
+        <option value="">Select your role</option>
+        <option value="Medical Director">Medical Director</option>
+        <option value="Agency Leadership / Chief">Agency Leadership / Chief</option>
+        <option value="QA/QI Coordinator">QA/QI Coordinator</option>
+        <option value="Field Provider">Field Provider</option>
+        <option value="Other">Other</option>
+      </select>
+      <div class="field-error" id="checklist-role-error" data-field-error="role" role="alert" hidden></div>
+    </div>
+    <button type="submit" class="btn btn--accent" style="width: 100%;">
+      <span class="btn-label">Get the Free Checklist</span>
+      <span class="spinner" aria-hidden="true"></span>
+    </button>
+  </form>
+
+  <div data-form-success={formId} hidden style="margin-top: var(--tah-spacing-lg); padding: var(--tah-spacing-md); background: rgba(46, 125, 50, 0.08); border-left: 3px solid var(--tah-success); border-radius: 4px;">
+    <p style="margin: 0 0 var(--tah-spacing-sm) 0; color: var(--tah-success); font-weight: 600;">Check your inbox. The PDF is on its way.</p>
+    <p style="margin: 0; font-size: var(--tah-font-size-small); color: var(--tah-text-secondary);">If it doesn&rsquo;t arrive within a minute, check your spam folder or <a href={`mailto:${Astro.props.fallbackEmail || 'info@tahsolutions.com'}`} style="color: var(--tah-secondary-dark);">email us</a>.</p>
+  </div>
+</div>

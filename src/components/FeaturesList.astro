@@ -1,0 +1,28 @@
+---
+/**
+ * FeaturesList.astro
+ * Renders a checklist of feature/benefit items with checkmark icons.
+ */
+export interface Item {
+  text: string;
+}
+
+export interface Props {
+  items: readonly Item[] | Item[];
+  class?: string;
+}
+
+const { items, class: className = '' } = Astro.props;
+const classAttr = className ? ` ${className}` : '';
+---
+
+<div class={`features-list${classAttr}`} style="margin: 0;">
+  {items.map((item) => (
+    <div class="features-list__item">
+      <div class="features-list__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="features-list__text" set:html={item.text}></div>
+    </div>
+  ))}
+</div>

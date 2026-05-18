@@ -1,0 +1,45 @@
+---
+/**
+ * Button.astro
+ * Configurable call-to-action button. Renders <a> by default or
+ * <button> when `type` is provided.
+ */
+export interface Props {
+  href?: string;
+  variant?: 'accent' | 'outline' | 'secondary';
+  size?: 'md' | 'lg';
+  type?: 'button' | 'submit' | 'reset';
+  external?: boolean;
+  download?: boolean;
+  class?: string;
+}
+
+const {
+  href,
+  variant = 'accent',
+  size = 'md',
+  type,
+  external = false,
+  download = false,
+  class: className = '',
+} = Astro.props;
+
+const sizeClass = size === 'lg' ? ' btn--lg' : '';
+const variantClass = variant ? ` btn--${variant}` : '';
+const classes = `btn${sizeClass}${variantClass} ${className}`.trim();
+---
+
+{href ? (
+  <a
+    href={href}
+    class={classes}
+    {...(external && { rel: 'noopener noreferrer', target: '_blank' })}
+    {...(download && { download: true })}
+  >
+    <slot />
+  </a>
+) : (
+  <button type={type ?? 'button'} class={classes}>
+    <slot />
+  </button>
+)}

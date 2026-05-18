@@ -1,0 +1,13 @@
+/* ============================================
+TAH Solutions — Component CSS Entry Point
+Imports all component partials. Keep this file tiny
+— split styles live in /src/styles/components/*.css
+============================================ */
+
+@import './components/menu.css';
+@import './components/hero.css';
+@import './components/buttons.css';
+@import './components/sections.css';
+@import './components/forms.css';
+@import './components/footer.css';
+@import './components/effects.css';

@@ -1,0 +1,57 @@
+---
+/**
+ * Services page — services.astro
+ * Hero + each service with detailed description + deliverables.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Button from '../components/Button.astro';
+import FeaturesList from '../components/FeaturesList.astro';
+import { SERVICES, SITE } from '../consts';
+
+const features = (s: typeof SERVICES[number]) =>
+  s.deliverables.map((d) => ({ text: d }));
+---
+
+<BaseLayout
+  title="EMS Protocol & QA/QI Consulting Services"
+  description="Protocol gap analysis, QA/QI program design, and clinical advisory retainers for EMS medical directors and agency leadership."
+  ogImage="/images/services.webp"
+>
+  <Hero
+    variant="services"
+    label="Our Services"
+    titleHtml={`Closing the gap between<br><em>protocol</em> and practice`}
+    body="We help EMS agencies and medical directors build the clinical infrastructure that written protocols alone cannot provide."
+  />
+
+  <section class="services-list" style="padding-top: var(--tah-spacing-xxl);">
+    <div class="container">
+      {SERVICES.map((s, i) => (
+        <article id={s.id} class={`services-list__item reveal${i > 0 ? ` reveal--d${Math.min(i, 5)}` : ''}`} style="scroll-margin-top: 100px;">
+          <div class="services-list__number">{s.number}</div>
+          <div>
+            <h3 class="services-list__title">{s.title}</h3>
+            <p class="services-list__desc">{s.desc}</p>
+            <h4 style="font-family: var(--tah-font-sans); font-size: var(--tah-font-size-label); font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--tah-text-muted); margin-top: var(--tah-spacing-lg); margin-bottom: var(--tah-spacing-sm);">What you get</h4>
+            <FeaturesList items={features(s)} />
+            <div style="margin-top: var(--tah-spacing-lg);">
+              <Button href={`${import.meta.env.BASE_URL}/contact`} variant="accent">Discuss {s.title}</Button>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="cta-block">
+    <div class="container">
+      <p class="text-label reveal" style="color: var(--tah-secondary); margin-bottom: var(--tah-spacing-md);">Get Started</p>
+      <h2 class="reveal reveal--d1">Not sure which service fits?</h2>
+      <p class="reveal reveal--d2">Every engagement starts with a free 30-minute discovery call. We&rsquo;ll help you find the right starting point for your agency.</p>
+      <div class="reveal reveal--d3" style="margin-top: var(--tah-spacing-xl);">
+        <Button href={`${import.meta.env.BASE_URL}/contact`} variant="accent" size="lg">Schedule a Free Call</Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

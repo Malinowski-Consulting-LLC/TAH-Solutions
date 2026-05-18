@@ -1,0 +1,57 @@
+---
+/**
+ * Checklist page — checklist.astro
+ * Hero + features + ChecklistForm.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Button from '../components/Button.astro';
+import ChecklistForm from '../components/ChecklistForm.astro';
+import FeaturesList from '../components/FeaturesList.astro';
+---
+
+<BaseLayout
+  title="Free 20-Question EMS Protocol Gap Audit"
+  description="Download our free 20-question Protocol Gap Audit Checklist. In under 10 minutes, see where your EMS agency stands on protocol compliance and clinical infrastructure."
+  ogImage="/images/checklist.webp"
+>
+  <Hero
+    variant="checklist"
+    label="Free Resource"
+    titleHtml={`Protocol Gap<br>Audit <em>Checklist</em>`}
+    body="20 questions. 10 minutes. A clear picture of where your agency stands on protocol compliance and clinical infrastructure."
+  />
+
+  <section style="padding: var(--tah-spacing-section) 0;">
+    <div class="container" style="max-width: 900px;">
+      <div style="display: grid; grid-template-columns: 1fr; gap: var(--tah-spacing-xxl);">
+        <div class="reveal">
+          <p class="text-label" style="margin-bottom: var(--tah-spacing-md);">What You&rsquo;ll Get</p>
+          <h2 style="font-family: var(--tah-font-serif); margin-bottom: var(--tah-spacing-xl);">A structured self-audit, not a generic checklist</h2>
+          <p style="color: var(--tah-text-secondary); line-height: 1.7; margin-bottom: var(--tah-spacing-lg);">This isn&rsquo;t a compliance checkbox. It&rsquo;s a clinical infrastructure assessment that helps you identify where your protocols may be drifting from evidence-based standards, and where your agency is most exposed.</p>
+          <FeaturesList items={[
+            { text: '20 targeted questions covering protocol review, QA/QI infrastructure, and operational compliance' },
+            { text: 'Aligned with NAEMSP guidelines and current EMS literature standards' },
+            { text: 'Risk-prioritized scoring to identify your most critical gaps first' },
+            { text: 'Takes under 10 minutes to complete. Designed for busy medical directors and agency leadership.' },
+          ]} />
+        </div>
+
+        <div class="reveal reveal--d1">
+          <ChecklistForm />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-block">
+    <div class="container">
+      <p class="text-label reveal" style="color: var(--tah-secondary); margin-bottom: var(--tah-spacing-md);">Need Help Interpreting Your Results?</p>
+      <h2 class="reveal reveal--d1">We can walk through it together</h2>
+      <p class="reveal reveal--d2">After you complete the checklist, schedule a free consultation to discuss your results and identify next steps.</p>
+      <div class="reveal reveal--d3" style="margin-top: var(--tah-spacing-xl);">
+        <Button href={`${import.meta.env.BASE_URL}/contact`} variant="accent" size="lg">Schedule a Free Call</Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

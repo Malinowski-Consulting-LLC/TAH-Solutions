@@ -1,0 +1,180 @@
+/* ============================================
+FORMS — Landing form shell, inputs, labels,
+validation states, error messages, spinner.
+============================================ */
+
+.landing-form {
+  background: #ffffff;
+  border: 1px solid var(--tah-border);
+  border-radius: var(--tah-radius-lg);
+  padding: var(--tah-spacing-xl);
+  box-shadow: var(--tah-shadow-md);
+}
+
+.form-group {
+  margin-bottom: var(--tah-spacing-md);
+}
+
+.form-group:last-of-type {
+  margin-bottom: var(--tah-spacing-lg);
+}
+
+.form-label {
+  display: block;
+  font-size: var(--tah-font-size-small);
+  font-weight: 600;
+  color: var(--tah-text);
+  margin-bottom: var(--tah-spacing-xs);
+}
+
+.form-required::after {
+  content: ' *';
+  color: var(--tah-secondary);
+}
+
+/* Inputs share base styles */
+.form-input,
+.form-textarea,
+.form-select {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-family: inherit;
+  font-size: var(--tah-font-size-body);
+  color: var(--tah-text);
+  background: #ffffff;
+  border: 1px solid var(--tah-border);
+  border-radius: var(--tah-radius-md);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.form-input:hover:not(:focus),
+.form-textarea:hover:not(:focus),
+.form-select:hover:not(:focus) {
+  border-color: var(--tah-gray-400);
+  background-color: #fcfbf8;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--tah-secondary);
+  box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.18);
+  background-color: #ffffff;
+}
+
+/* Invalid state — JS toggles aria-invalid; CSS picks it up + shakes */
+.form-input[aria-invalid="true"],
+.form-textarea[aria-invalid="true"],
+.form-select[aria-invalid="true"] {
+  border-color: var(--tah-error);
+  box-shadow: 0 0 0 3px rgba(198, 40, 40, 0.10);
+  background-color: #fff8f7;
+  animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes shake {
+  10%, 90% { transform: translateX(-1px); }
+  20%, 80% { transform: translateX(2px); }
+  30%, 50%, 70% { transform: translateX(-3px); }
+  40%, 60% { transform: translateX(3px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .form-input[aria-invalid="true"],
+  .form-textarea[aria-invalid="true"],
+  .form-select[aria-invalid="true"] {
+    animation: none;
+  }
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.form-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1.25rem;
+  padding-right: 2.5rem;
+}
+
+/* Inline field error — icon + message */
+.field-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+  font-size: 0.8125rem;
+  color: var(--tah-error);
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+.field-error::before {
+  content: '!';
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--tah-error);
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.field-error[hidden] {
+  display: none;
+}
+
+/* Form-level error summary banner */
+.form-error-summary {
+  margin-bottom: var(--tah-spacing-lg);
+  padding: var(--tah-spacing-md);
+  background: rgba(198, 40, 40, 0.06);
+  border-left: 3px solid var(--tah-error);
+  border-radius: var(--tah-radius-sm);
+  color: var(--tah-error);
+  font-size: var(--tah-font-size-small);
+  font-weight: 500;
+}
+
+.form-error-summary[hidden] {
+  display: none;
+}
+
+.form-error-summary p {
+  margin: 0;
+  color: var(--tah-error);
+}
+
+/* Submit button spinner */
+.btn .spinner {
+  display: none;
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+.btn.is-loading .spinner {
+  display: inline-block;
+}
+
+.btn.is-loading .btn-label {
+  opacity: 0.7;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

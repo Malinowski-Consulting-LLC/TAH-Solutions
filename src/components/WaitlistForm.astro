@@ -1,0 +1,106 @@
+---
+/**
+ * WaitlistForm.astro
+ * Course launch waitlist signup. Submits to Google Forms.
+ *
+ * Client-side validation is handled by `scripts/form-validation.ts`.
+ */
+import { GOOGLE_FORMS, googleFormActionUrl } from '../consts';
+
+const formId = 'waitlist';
+const action = googleFormActionUrl(GOOGLE_FORMS.waitlist.formId);
+const entries = GOOGLE_FORMS.waitlist.entries;
+const iframeName = `hidden_iframe_${formId}`;
+---
+
+<div class="landing-form">
+  <h2 style="font-family: var(--tah-font-serif); margin-bottom: var(--tah-spacing-sm); font-size: var(--tah-font-size-h4);">Join the Waitlist</h2>
+  <p style="font-size: var(--tah-font-size-small); color: var(--tah-text-secondary); margin-bottom: var(--tah-spacing-xl);">Be first to know when the course launches, and lock in early access pricing.</p>
+
+  <div class="form-error-summary" role="alert" data-form-summary={formId} hidden>
+    <p>Please fix the errors below and try again.</p>
+  </div>
+
+  <iframe name={iframeName} id={iframeName} style="display:none;" title="hidden submission target" aria-hidden="true"></iframe>
+
+  <form
+    action={action}
+    method="POST"
+    target={iframeName}
+    onsubmit={`return tahValidate(event, '${formId}', ['name','email','agency','role']);`}
+    data-form={formId}
+    novalidate
+  >
+    <div class="form-group">
+      <label class="form-label form-required" for="waitlist-name">Full Name</label>
+      <input
+        type="text"
+        id="waitlist-name"
+        name={`entry.${entries.name}`}
+        class="form-input"
+        data-field="name"
+        required
+        autocomplete="name"
+        maxlength="100"
+        aria-describedby="waitlist-name-error"
+      >
+      <div class="field-error" id="waitlist-name-error" data-field-error="name" role="alert" hidden></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label form-required" for="waitlist-email">Email</label>
+      <input
+        type="email"
+        id="waitlist-email"
+        name={`entry.${entries.email}`}
+        class="form-input"
+        data-field="email"
+        required
+        autocomplete="email"
+        maxlength="254"
+        aria-describedby="waitlist-email-error"
+      >
+      <div class="field-error" id="waitlist-email-error" data-field-error="email" role="alert" hidden></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="waitlist-agency">Agency Name <span style="color: var(--tah-text-muted); font-weight: 400;">(optional)</span></label>
+      <input
+        type="text"
+        id="waitlist-agency"
+        name={`entry.${entries.agency}`}
+        class="form-input"
+        data-field="agency"
+        autocomplete="organization"
+        maxlength="200"
+        aria-describedby="waitlist-agency-error"
+      >
+      <div class="field-error" id="waitlist-agency-error" data-field-error="agency" role="alert" hidden></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="waitlist-role">Your Role <span style="color: var(--tah-text-muted); font-weight: 400;">(optional)</span></label>
+      <select
+        id="waitlist-role"
+        name={`entry.${entries.role}`}
+        class="form-select"
+        data-field="role"
+        aria-describedby="waitlist-role-error"
+      >
+        <option value="">Select your role</option>
+        <option value="Medical Director">Medical Director</option>
+        <option value="Agency Leadership / Chief">Agency Leadership / Chief</option>
+        <option value="QA/QI Coordinator">QA/QI Coordinator</option>
+        <option value="Field Provider">Field Provider</option>
+        <option value="Educator">Educator</option>
+        <option value="Other">Other</option>
+      </select>
+      <div class="field-error" id="waitlist-role-error" data-field-error="role" role="alert" hidden></div>
+    </div>
+    <button type="submit" class="btn btn--accent" style="width: 100%;">
+      <span class="btn-label">Join the Waitlist</span>
+      <span class="spinner" aria-hidden="true"></span>
+    </button>
+  </form>
+
+  <div data-form-success={formId} hidden style="margin-top: var(--tah-spacing-lg); padding: var(--tah-spacing-md); background: rgba(46, 125, 50, 0.08); border-left: 3px solid var(--tah-success); border-radius: 4px;">
+    <p style="margin: 0; color: var(--tah-success); font-weight: 600;">You&rsquo;re on the list. We&rsquo;ll email you when enrollment opens.</p>
+  </div>
+</div>

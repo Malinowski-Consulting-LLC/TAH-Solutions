@@ -1,0 +1,240 @@
+/* ============================================
+FOOTER — Site footer with brand, link columns,
+disclaimer, copyright, made-in-Texas line, and
+"Built by" attribution. Includes grain texture.
+============================================ */
+
+.footer {
+  background: var(--tah-primary);
+  color: #ffffff;
+  padding: var(--tah-spacing-xxxl) 0 var(--tah-spacing-xl);
+  position: relative;
+}
+
+.footer__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--tah-spacing-xl);
+  margin-bottom: var(--tah-spacing-xxl);
+  padding-bottom: var(--tah-spacing-xl);
+}
+
+@media (min-width: 768px) {
+  .footer__grid {
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+  }
+}
+
+.footer__brand-img {
+  height: 36px;
+  width: auto;
+  margin-bottom: var(--tah-spacing-md);
+  filter: brightness(0) invert(1);
+}
+
+.footer__desc {
+  font-size: var(--tah-font-size-small);
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.6;
+  max-width: 320px;
+  margin: 0;
+}
+
+.footer__heading {
+  font-family: var(--tah-font-sans);
+  font-size: var(--tah-font-size-label);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: var(--tah-spacing-md);
+}
+
+.footer__links li {
+  margin-bottom: var(--tah-spacing-sm);
+}
+
+.footer__links a {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: var(--tah-font-size-small);
+  text-decoration: none;
+  transition: color 0.2s ease, padding-left 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  position: relative;
+}
+
+.footer__links a::before {
+  content: '→';
+  position: absolute;
+  left: -1.1em;
+  color: var(--tah-secondary);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  font-size: 0.9em;
+}
+
+.footer__links a:hover {
+  color: var(--tah-secondary);
+  padding-left: 1.1em;
+}
+
+.footer__links a:hover::before {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Disclaimer block */
+.footer__disclaimer {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: var(--tah-spacing-lg);
+  font-size: var(--tah-font-size-small);
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+}
+
+.footer__disclaimer p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: var(--tah-font-size-small);
+  line-height: 1.7;
+  margin-bottom: var(--tah-spacing-sm);
+}
+
+/* Override the global strong color so the "Disclaimer:" label stays readable */
+.footer__disclaimer strong {
+  color: #ffffff;
+}
+
+.footer__disclaimer p:last-child {
+  margin-bottom: 0;
+}
+
+/* "Made with heart in Texas" line */
+.footer .footer-meta {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: var(--tah-font-size-body);
+  margin-top: var(--tah-spacing-sm);
+  margin-bottom: var(--tah-spacing-xs);
+  text-align: center;
+  white-space: nowrap;
+  line-height: 1.6;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+.footer-meta > .heart,
+.footer-meta > .texas-icon {
+  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .footer-meta {
+    font-size: var(--tah-font-size-small);
+    white-space: normal;
+  }
+}
+
+@keyframes pulse-heart {
+  0%   { transform: scale(1); }
+  15%  { transform: scale(1.35); }
+  30%  { transform: scale(1); }
+  45%  { transform: scale(1.25); }
+  60%  { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+
+.heart {
+  display: inline-block;
+  animation: pulse-heart 1.8s infinite ease-in-out;
+  transform-origin: center;
+  font-size: 1.2em;
+  line-height: 1;
+  vertical-align: middle;
+  filter: drop-shadow(0 0 6px rgba(239, 68, 68, 0.5));
+}
+
+@keyframes texas-sway {
+  0%, 100% { transform: rotate(0deg); }
+  50%      { transform: rotate(4deg); }
+}
+
+.texas-icon {
+  height: 1.6em;
+  width: auto;
+  vertical-align: middle;
+  display: inline-block;
+  margin-left: 0.1rem;
+  animation: texas-sway 4s infinite ease-in-out;
+  filter: drop-shadow(0 0 6px rgba(201, 168, 76, 0.6));
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.texas-icon:hover {
+  animation-play-state: paused;
+  transform: scale(1.25) rotate(8deg);
+  filter: drop-shadow(0 0 14px rgba(201, 168, 76, 0.95));
+}
+
+/* "Built by" line */
+.footer .footer-built {
+  margin-top: var(--tah-spacing-xs);
+  margin-bottom: 0;
+  font-size: var(--tah-font-size-caption);
+  color: rgba(255, 255, 255, 0.3);
+  text-align: center;
+}
+
+.footer .footer-built a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.25);
+  text-underline-offset: 2px;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.footer .footer-built a:hover {
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Copyright — gold, glowing */
+.footer p.copyright {
+  font-size: var(--tah-font-size-small);
+  font-weight: 500;
+  color: #d4a574;
+  text-shadow: 0 0 8px rgba(212, 165, 116, 0.35), 0 1px 0 rgba(0, 0, 0, 0.4);
+  letter-spacing: 0.04em;
+  margin-top: 0.5rem;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+/* ============================================
+GRAIN TEXTURE — Subtle noise on dark sections
+============================================ */
+
+.stats,
+.footer {
+  position: relative;
+}
+
+.stats::before,
+.footer::before,
+.menu-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.stats > .container,
+.footer > .container,
+.menu-overlay__inner {
+  position: relative;
+  z-index: 1;
+}

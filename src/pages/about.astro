@@ -1,0 +1,70 @@
+---
+/**
+ * About page — about.astro
+ * Hero + founder background + values + credentials.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Button from '../components/Button.astro';
+import { SITE } from '../consts';
+---
+
+<BaseLayout
+  title="About | EMS Clinical Infrastructure Experts"
+  description="TAH Solutions was founded by EMS operators, for EMS operators. We build the clinical infrastructure that keeps protocols alive, supports providers, and reduces agency liability."
+  ogImage="/images/about-header.webp"
+>
+  <Hero
+    variant="about"
+    label="About"
+    titleHtml={`Clinical infrastructure<br>built on <em>evidence</em>`}
+    body="We help EMS agencies transform static protocol binders into living clinical infrastructure that protects patients, supports providers, and reduces agency liability."
+  />
+
+  <section style="padding: var(--tah-spacing-section) 0;">
+    <div class="container" style="max-width: 800px;">
+      <p class="text-label reveal" style="margin-bottom: var(--tah-spacing-md);">Who We Are</p>
+      <h2 class="reveal reveal--d1" style="font-family: var(--tah-font-serif); margin-bottom: var(--tah-spacing-xl);">Founded by EMS operators, for EMS operators</h2>
+
+      <p class="reveal" style="font-size: 1.125rem; line-height: 1.7; color: var(--tah-text); margin-bottom: var(--tah-spacing-lg);">
+        TAH Solutions was founded by Tanner Gurtner, an EMS professional with deep experience in protocol design, QA/QI program development, and clinical operations. After years of watching agencies struggle with the same fundamental gap &mdash; protocols that exist on paper but drift in practice &mdash; TAH Solutions was built to close that gap systematically.
+      </p>
+
+      <p class="reveal" style="line-height: 1.7; margin-bottom: var(--tah-spacing-lg);">
+        We work with medical directors, agency leadership, and QA/QI coordinators to build the infrastructure that keeps protocols alive: regular review cycles, measurable standards, feedback loops, and clinical leadership support. The result is a program that actually changes outcomes, not a binder that collects dust.
+      </p>
+
+      <h3 class="reveal" style="font-family: var(--tah-font-serif); margin-top: var(--tah-spacing-xxl); margin-bottom: var(--tah-spacing-md);">What we believe</h3>
+
+      <ul class="reveal" style="list-style: none; padding: 0; margin: 0 0 var(--tah-spacing-xl) 0;">
+        <li style="padding: var(--tah-spacing-md) 0; border-bottom: 1px solid var(--tah-border);">
+          <strong style="display: block; margin-bottom: 0.25rem;">Protocols are a starting point, not a finish line.</strong>
+          <span style="color: var(--tah-text-secondary);">The value of evidence-based medicine is realized through operationalization, not publication.</span>
+        </li>
+        <li style="padding: var(--tah-spacing-md) 0; border-bottom: 1px solid var(--tah-border);">
+          <strong style="display: block; margin-bottom: 0.25rem;">QA/QI is infrastructure, not compliance.</strong>
+          <span style="color: var(--tah-text-secondary);">A real quality program drives clinical improvement. A checkbox program drives cynicism.</span>
+        </li>
+        <li style="padding: var(--tah-spacing-md) 0; border-bottom: 1px solid var(--tah-border);">
+          <strong style="display: block; margin-bottom: 0.25rem;">Medical directors need support, not blame.</strong>
+          <span style="color: var(--tah-text-secondary);">Agencies often expect their medical director to be a full-time clinical leader on a part-time contract. We fill that gap.</span>
+        </li>
+        <li style="padding: var(--tah-spacing-md) 0;">
+          <strong style="display: block; margin-bottom: 0.25rem;">The standard of care is a moving target.</strong>
+          <span style="color: var(--tah-text-secondary);">EMS literature evolves. Your protocols should too. We make that evolution systematic.</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="cta-block">
+    <div class="container">
+      <p class="text-label reveal" style="color: var(--tah-secondary); margin-bottom: var(--tah-spacing-md);">Work With Us</p>
+      <h2 class="reveal reveal--d1">Ready to close the gap?</h2>
+      <p class="reveal reveal--d2">Start with a free 30-minute discovery call. We&rsquo;ll discuss your agency&rsquo;s current state, immediate priorities, and where we can add the most value.</p>
+      <div class="reveal reveal--d3" style="margin-top: var(--tah-spacing-xl);">
+        <Button href={`${import.meta.env.BASE_URL}/contact`} variant="accent" size="lg">Schedule a Free Call</Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

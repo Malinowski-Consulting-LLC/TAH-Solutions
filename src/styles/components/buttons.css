@@ -1,0 +1,275 @@
+/* ============================================
+BUTTONS + CTAs — Buttons, calendar-booking,
+and the floating "Book a Call" CTA.
+============================================ */
+
+/* Base button */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--tah-spacing-sm);
+  padding: 0.75rem 1.5rem;
+  font-family: var(--tah-font-sans);
+  font-size: var(--tah-font-size-small);
+  font-weight: 600;
+  border: 1px solid transparent;
+  border-radius: var(--tah-radius-sm);
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.2s ease,
+              border-color 0.2s ease,
+              color 0.2s ease,
+              box-shadow 0.2s ease;
+  min-height: 44px;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Shimmer sweep on hover for accent buttons */
+.btn--accent::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.25) 50%, transparent 100%);
+  transition: left 0.6s ease;
+  pointer-events: none;
+}
+
+.btn--accent:hover::before {
+  left: 100%;
+}
+
+.btn:active {
+  transform: translateY(0) scale(0.98);
+  transition-duration: 0.05s;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--tah-secondary);
+  outline-offset: 3px;
+}
+
+.btn[disabled],
+.btn.is-loading {
+  opacity: 0.7;
+  cursor: wait;
+  pointer-events: none;
+}
+
+/* Sizes */
+.btn--lg {
+  padding: 1rem 2rem;
+  font-size: var(--tah-font-size-body);
+}
+
+.btn--sm {
+  padding: 0.5rem 1rem;
+  font-size: var(--tah-font-size-caption);
+  min-height: 36px;
+}
+
+/* Variants */
+.btn--accent {
+  background: var(--tah-secondary);
+  color: var(--tah-primary);
+  border-color: var(--tah-secondary);
+}
+
+.btn--accent:hover {
+  background: var(--tah-secondary-dark);
+  border-color: var(--tah-secondary-dark);
+  color: var(--tah-primary);
+  transform: translateY(-1px);
+}
+
+.btn--outline {
+  background: transparent;
+  color: var(--tah-primary);
+  border-color: var(--tah-gray-300);
+}
+
+.btn--outline:hover {
+  background: var(--tah-primary);
+  color: #ffffff;
+  border-color: var(--tah-primary);
+}
+
+/* Hero context — outline button inverts to white-on-dark */
+.hero .btn--outline,
+.hero--compact .btn--outline {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.hero .btn--outline:hover,
+.hero--compact .btn--outline:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: #ffffff;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.btn--secondary {
+  background: transparent;
+  color: var(--tah-secondary-dark);
+  border-color: var(--tah-secondary);
+}
+
+.btn--secondary:hover {
+  background: var(--tah-secondary);
+  color: #ffffff;
+}
+
+/* ============================================
+FLOATING CTA — Bottom-right "Book a Call"
+============================================ */
+
+.floating-cta {
+  position: fixed;
+  bottom: var(--tah-spacing-lg);
+  right: var(--tah-spacing-lg);
+  z-index: 900;
+}
+
+.floating-cta__trigger {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--tah-spacing-sm);
+  padding: 0.875rem 1.25rem;
+  background: var(--tah-secondary);
+  color: #000000;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: var(--tah-radius-full);
+  box-shadow: 0 8px 24px rgba(201, 168, 76, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+}
+
+.floating-cta__trigger::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.35) 50%, transparent 100%);
+  transition: left 0.7s ease;
+  pointer-events: none;
+  border-radius: var(--tah-radius-full);
+}
+
+.floating-cta__trigger:hover::before {
+  left: 100%;
+}
+
+.floating-cta__trigger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(201, 168, 76, 0.4);
+  color: #ffffff;
+}
+
+.floating-cta__trigger:active {
+  transform: translateY(0) scale(0.97);
+  transition-duration: 0.05s;
+}
+
+.floating-cta__trigger svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.floating-cta__pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--tah-radius-full);
+  background: var(--tah-secondary);
+  opacity: 0.5;
+  z-index: -1;
+  animation: pulse-ring 2.5s ease-out infinite;
+}
+
+@keyframes pulse-ring {
+  0%   { transform: scale(1);   opacity: 0.5; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+@media (max-width: 640px) {
+  .floating-cta__trigger {
+    padding: 0.875rem;
+  }
+  .floating-cta__trigger span {
+    display: none;
+  }
+}
+
+/* ============================================
+CALENDAR BOOKING — "Schedule with Google" button
+============================================ */
+
+.calendar-booking {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.calendar-booking__button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--tah-spacing-md);
+  padding: 1.125rem 2rem;
+  background: #ffffff;
+  color: var(--tah-primary);
+  border: 2px solid var(--tah-primary);
+  border-radius: var(--tah-radius-md);
+  font-family: var(--tah-font-sans);
+  font-size: var(--tah-font-size-body);
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  transition: background var(--tah-transition), color var(--tah-transition),
+              border-color var(--tah-transition), transform var(--tah-transition),
+              box-shadow var(--tah-transition);
+}
+
+.calendar-booking__button:hover {
+  background: var(--tah-primary);
+  color: #ffffff;
+  border-color: var(--tah-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.15);
+}
+
+.calendar-booking__button svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.calendar-booking__arrow {
+  transition: transform var(--tah-transition);
+}
+
+.calendar-booking__button:hover .calendar-booking__arrow {
+  transform: translateX(4px);
+}
+
+.calendar-booking__note {
+  margin-top: var(--tah-spacing-md);
+  font-size: var(--tah-font-size-small);
+  color: var(--tah-text-secondary);
+  line-height: 1.6;
+}

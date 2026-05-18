@@ -1,0 +1,163 @@
+/* ============================================
+EFFECTS — Section watermarks, back-to-top,
+reveal-stagger, 404 page, scale-in reveal.
+============================================ */
+
+/* ============================================
+SECTION NUMBER WATERMARKS
+Ghosted text behind content sections.
+============================================ */
+
+.section-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--tah-font-serif);
+  font-size: clamp(8rem, 18vw, 18rem);
+  font-weight: 700;
+  color: var(--tah-gray-200);
+  opacity: 0.35;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  line-height: 1;
+}
+
+.section-watermark--dark {
+  color: rgba(255, 255, 255, 0.04);
+}
+
+.section-with-watermark {
+  position: relative;
+  overflow: hidden;
+}
+
+.section-with-watermark > .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================
+BACK TO TOP — Appears after 600px scroll
+============================================ */
+
+.back-to-top {
+  position: fixed;
+  bottom: var(--tah-spacing-xl);
+  /* Sits to the left of the floating CTA (which is ~140px wide + spacing) */
+  right: calc(var(--tah-spacing-lg) + 180px);
+  z-index: 850;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--tah-radius-full);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--tah-gray-200);
+  color: var(--tah-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease,
+              background-color 0.2s ease, border-color 0.2s ease;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.back-to-top:hover {
+  background: var(--tah-secondary);
+  border-color: var(--tah-secondary);
+  color: var(--tah-primary);
+}
+
+.back-to-top:active {
+  transform: scale(0.94);
+}
+
+.back-to-top svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Stack above the floating CTA on small screens */
+@media (max-width: 640px) {
+  .back-to-top {
+    bottom: calc(var(--tah-spacing-lg) + 60px);
+    right: var(--tah-spacing-lg);
+  }
+}
+
+/* ============================================
+REVEAL STAGGER — Cascade children
+============================================ */
+
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-stagger.visible > *:nth-child(1) { transition-delay: 0.00s; opacity: 1; transform: translateY(0); }
+.reveal-stagger.visible > *:nth-child(2) { transition-delay: 0.10s; opacity: 1; transform: translateY(0); }
+.reveal-stagger.visible > *:nth-child(3) { transition-delay: 0.20s; opacity: 1; transform: translateY(0); }
+.reveal-stagger.visible > *:nth-child(4) { transition-delay: 0.30s; opacity: 1; transform: translateY(0); }
+.reveal-stagger.visible > *:nth-child(5) { transition-delay: 0.40s; opacity: 1; transform: translateY(0); }
+.reveal-stagger.visible > *:nth-child(6) { transition-delay: 0.50s; opacity: 1; transform: translateY(0); }
+
+/* ============================================
+REVEAL — scale-in variant
+============================================ */
+
+.reveal--scale {
+  transform: translateY(20px) scale(0.96);
+}
+
+.reveal--scale.visible {
+  transform: translateY(0) scale(1);
+}
+
+/* ============================================
+404 PAGE
+============================================ */
+
+.not-found {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--tah-spacing-section) var(--tah-spacing-lg);
+}
+
+.not-found__code {
+  font-family: var(--tah-font-serif);
+  font-size: clamp(6rem, 18vw, 12rem);
+  font-weight: 700;
+  color: var(--tah-secondary);
+  line-height: 1;
+  margin-bottom: var(--tah-spacing-md);
+  text-shadow: 0 4px 24px rgba(201, 168, 76, 0.2);
+}
+
+.not-found__title {
+  margin-bottom: var(--tah-spacing-md);
+}
+
+.not-found__body {
+  max-width: 480px;
+  margin: 0 auto var(--tah-spacing-xl);
+  color: var(--tah-text-secondary);
+  line-height: 1.7;
+}

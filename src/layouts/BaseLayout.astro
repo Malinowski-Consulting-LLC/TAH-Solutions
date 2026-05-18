@@ -1,0 +1,336 @@
+---
+/**
+ * BaseLayout.astro
+ * The master HTML shell for every page. Renders <head>, skip link, nav,
+ * menu overlay, slot for page content, footer, and the floating CTA.
+ * Imports the global stylesheet once.
+ */
+import { SITE, NAV } from '../consts';
+import '../styles/global.css';
+import MenuOverlay from '../components/MenuOverlay.astro';
+// MenuTrigger is unused — the MiniNav's hamburger handles all menu toggling.
+// To restore the floating trigger, import MenuTrigger and add <MenuTrigger />
+// between the skip-link and MenuOverlay, plus add the trigger JS back.
+import MiniNav from '../components/MiniNav.astro';
+import Footer from '../components/Footer.astro';
+import FloatingCTA from '../components/FloatingCTA.astro';
+
+export interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  noindex?: boolean;
+  bodyClass?: string;
+  /** If true, render the floating "Book a Call" button. */
+  showFloatingCta?: boolean;
+}
+
+const {
+  title,
+  description = SITE.description,
+  ogImage = '/images/header-section-home.webp',
+  noindex = false,
+  bodyClass = '',
+  showFloatingCta = true,
+} = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? SITE.url).toString();
+const fullTitle = title === SITE.name ? title : `${title} | ${SITE.name}`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content={Astro.generator}>
+    <link rel="icon" type="image/x-icon" href={`${import.meta.env.BASE_URL}/favicon.ico`}>
+    <title>{fullTitle}</title>
+    <meta name="description" content={description}>
+    <link rel="canonical" href={canonicalUrl}>
+
+    {noindex && <meta name="robots" content="noindex, nofollow">}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content={fullTitle}>
+    <meta property="og:description" content={description}>
+    <meta property="og:url" content={canonicalUrl}>
+    <meta property="og:image" content={ogImage}>
+    <meta property="og:site_name" content={SITE.name}>
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content={fullTitle}>
+    <meta name="twitter:description" content={description}>
+    <meta name="twitter:image" content={ogImage}>
+
+    <!-- Web fonts (preconnect for perf) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&display=swap"
+    >
+  </head>
+
+  <body class={bodyClass}>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <MenuOverlay links={NAV} />
+    <MiniNav links={NAV} />
+
+    <main id="main-content">
+      <slot />
+    </main>
+
+    <Footer />
+    {showFloatingCta && <FloatingCTA />}
+
+    <button
+      class="back-to-top"
+      data-back-to-top
+      aria-label="Back to top"
+      type="button"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="18 15 12 9 6 15"/>
+      </svg>
+    </button>
+
+    <script>
+      // ============================================
+      // MENU OVERLAY — open/close, focus trap, arrow indicator
+      // ============================================
+      const overlay = document.querySelector<HTMLDivElement>('[data-menu-overlay]');
+      const miniTrigger = document.querySelector<HTMLButtonElement>('[data-mini-trigger]');
+
+      function setActiveArrow(open: boolean) {
+        if (!overlay) return;
+        overlay.querySelectorAll<HTMLElement>('.menu-overlay__links a.active')
+          .forEach((el) => el.classList.toggle('show-arrow', open));
+      }
+
+      function openMenu() {
+        overlay?.classList.add('open');
+        miniTrigger?.classList.add('active');
+        miniTrigger?.setAttribute('aria-label', 'Close navigation menu');
+        document.body.style.overflow = 'hidden';
+        setActiveArrow(true);
+        const firstLink = overlay?.querySelector<HTMLElement>('.menu-overlay__links a');
+        requestAnimationFrame(() => firstLink?.focus({ preventScroll: true }));
+      }
+
+      function closeMenu() {
+        overlay?.classList.remove('open');
+        miniTrigger?.classList.remove('active');
+        miniTrigger?.setAttribute('aria-label', 'Open navigation menu');
+        document.body.style.overflow = '';
+        setActiveArrow(false);
+      }
+
+      function toggleMenu() {
+        if (overlay?.classList.contains('open')) closeMenu();
+        else openMenu();
+      }
+
+      miniTrigger?.addEventListener('click', toggleMenu);
+      overlay?.addEventListener('click', (e) => {
+        if (e.target === overlay) closeMenu();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (!overlay?.classList.contains('open')) return;
+        if (e.key === 'Escape') {
+          closeMenu();
+          miniTrigger?.focus();
+          return;
+        }
+        // Focus trap — keep Tab cycling inside the overlay links
+        if (e.key === 'Tab') {
+          const focusables = overlay.querySelectorAll<HTMLElement>(
+            'a, button, [tabindex]:not([tabindex="-1"])'
+          );
+          if (focusables.length === 0) return;
+          const first = focusables[0];
+          const last = focusables[focusables.length - 1];
+          if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
+      });
+
+      // ============================================
+      // MINI-NAV — background + back-to-top on scroll
+      // ============================================
+      const miniNav = document.querySelector<HTMLElement>('[data-mini-nav]');
+      const backToTop = document.querySelector<HTMLButtonElement>('[data-back-to-top]');
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function onScroll() {
+        const y = window.scrollY;
+        if (miniNav) miniNav.classList.toggle('scrolled', y > 80);
+        if (backToTop) backToTop.classList.toggle('visible', y > 600);
+
+        // Subtle parallax on inner-page hero backgrounds (not home — it uses ::before blur)
+        if (!prefersReducedMotion && !parallaxTracked) return;
+        document.querySelectorAll<HTMLElement>('.hero--compact .hero__bg').forEach((bg) => {
+          const speed = 0.18; // gentle, ~18% of scroll speed
+          bg.style.transform = `scale(1.05) translateY(${y * speed}px)`;
+        });
+      }
+
+      let parallaxTracked = false;
+      if (!prefersReducedMotion) {
+        // Only run parallax if there's an inner-page hero on the current page
+        parallaxTracked = !!document.querySelector('.hero--compact .hero__bg');
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+
+      backToTop?.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+      });
+
+      // ============================================
+      // REVEAL ON SCROLL — .reveal + .reveal-stagger
+      // ============================================
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              revealObserver.unobserve(entry.target);
+            }
+          }
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+      );
+      document.querySelectorAll('.reveal, .reveal-stagger').forEach((el) =>
+        revealObserver.observe(el)
+      );
+
+      // ============================================
+      // STATS COUNT-UP — animates from 0 to target on scroll-into-view
+      // Reads the final value from data-count, preserves prefix/suffix
+      // (e.g. "$0" → animates "$0"→"$120k", "10" → animates 0→10).
+      // ============================================
+      const stats = document.querySelectorAll<HTMLElement>('[data-count]');
+      if (stats.length > 0) {
+        const countObserver = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue;
+              const el = entry.target as HTMLElement;
+              const target = parseFloat(el.dataset.count || '0');
+              const duration = parseInt(el.dataset.countDuration || '1500', 10);
+              const decimals = parseInt(el.dataset.countDecimals || '0', 10);
+              const prefix = el.dataset.countPrefix || '';
+              const suffix = el.dataset.countSuffix || '';
+              const start = performance.now();
+              const reduced = prefersReducedMotion;
+
+              const tick = (now: number) => {
+                const t = reduced ? 1 : Math.min(1, (now - start) / duration);
+                // easeOutCubic for a soft landing
+                const eased = reduced ? 1 : 1 - Math.pow(1 - t, 3);
+                const value = target * eased;
+                el.textContent = prefix + value.toFixed(decimals) + suffix;
+                if (t < 1) requestAnimationFrame(tick);
+                else el.textContent = prefix + target.toFixed(decimals) + suffix;
+              };
+
+              requestAnimationFrame(tick);
+              countObserver.unobserve(el);
+            }
+          },
+          { threshold: 0.4 }
+        );
+        stats.forEach((s) => countObserver.observe(s));
+      }
+
+      // ============================================
+      // GOOGLE FORMS — submit feedback
+      // Shows in-place success message + adds loading state to the button.
+      // ============================================
+      (window as any).tahSubmitted = function (formId: string) {
+        const form = document.querySelector<HTMLElement>(`[data-form="${formId}"]`);
+        const success = document.querySelector<HTMLElement>(`[data-form-success="${formId}"]`);
+        if (form) {
+          // Mark the submit button as loading during the post
+          const btn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+          if (btn) {
+            btn.classList.add('is-loading');
+            btn.disabled = true;
+          }
+          // After ~1.2s (form post to Google Forms typically completes in <2s)
+          setTimeout(() => {
+            if (form) form.hidden = true;
+            if (success) {
+              success.hidden = false;
+              success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+          }, 1200);
+        }
+      };
+
+      // ============================================
+      // GOOGLE FORMS — pre-submit validation + sanitization
+      // Returns true to allow submit, false to block. Wires the
+      // inline error display and applies cleaned values back to the form.
+      // ============================================
+      (window as any).tahValidate = function (
+        event: SubmitEvent,
+        formId: string,
+        fields: string[]
+      ) {
+        const form = document.querySelector<HTMLFormElement>(`[data-form="${formId}"]`);
+        if (!form) return true;
+
+        // Lazy-load the validation module (Vite will inline this in production)
+        import('../scripts/form-validation.ts').then((mod) => {
+          const result = mod.validateForm(form, fields as any);
+          if (!result.ok) {
+            event.preventDefault();
+            mod.showErrors(form, result.errors);
+            // Reveal the form-level summary banner
+            const summary = form.parentElement?.querySelector<HTMLElement>(
+              `[data-form-summary="${formId}"]`
+            );
+            if (summary) summary.hidden = false;
+            return;
+          }
+          // Apply sanitized values back so Google Forms gets clean data
+          mod.applySanitized(form, result.values);
+          // Clear any old errors
+          mod.showErrors(form, {});
+          // Hide the form-level summary banner (in case it was visible)
+          const summary = form.parentElement?.querySelector<HTMLElement>(
+            `[data-form-summary="${formId}"]`
+          );
+          if (summary) summary.hidden = true;
+          // Fire the post-submit UX (loading + success)
+          (window as any).tahSubmitted(formId);
+        });
+
+        // Block the synchronous submit; the dynamic import is async
+        event.preventDefault();
+        return false;
+      };
+
+      // ============================================
+      // Wire input listeners to clear errors as users fix them
+      // ============================================
+      import('../scripts/form-validation.ts').then((mod) => {
+        document.querySelectorAll<HTMLFormElement>('form[data-form]').forEach((form) => {
+          mod.clearOnInput(form);
+        });
+      });
+    </script>
+  </body>
+</html>

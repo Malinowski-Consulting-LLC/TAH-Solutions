@@ -1,0 +1,88 @@
+/* ============================================
+TAH Solutions — Design Tokens
+Centralized CSS custom properties.
+Imported by base.css and components.css.
+============================================ */
+
+:root {
+  /* Color tokens — gold accent, warm gray scale (PoC2 palette) */
+  --tah-bg: #ffffff;
+  --tah-surface: #fafaf7;
+  --tah-bg-soft: #fafaf7;
+
+  --tah-text: #111111;
+  --tah-text-secondary: #5c5a52;
+  --tah-text-muted: #8a877a;
+
+  --tah-primary: #0f172a;          /* Deep navy — used for headers, dark surfaces */
+  --tah-primary-light: #1e293b;
+  --tah-primary-dark: #020617;
+
+  --tah-secondary: #c9a84c;        /* Gold — primary accent, CTAs, links on hover */
+  --tah-secondary-light: #d4ba6a;
+  --tah-secondary-dark: #a68b3c;
+
+  /* Warm gray scale */
+  --tah-gray-50: #fafaf7;
+  --tah-gray-100: #f3f2ed;
+  --tah-gray-200: #e5e3db;
+  --tah-gray-300: #d0ccbe;
+  --tah-gray-400: #ada998;
+  --tah-gray-500: #8a877a;
+  --tah-gray-600: #5c5a52;
+  --tah-gray-700: #3d3c37;
+  --tah-gray-800: #262522;
+  --tah-gray-900: #0f172a;
+
+  --tah-success: #2e7d32;
+  --tah-error: #c62828;
+
+  --tah-border: #e5e3db;            /* warmer than slate */
+  --tah-border-dark: #1e293b;
+
+  /* Typography */
+  --tah-font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --tah-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  --tah-font-size-display: clamp(2.75rem, 6vw, 5rem);
+  --tah-font-size-h1: clamp(2rem, 4.5vw, 3.5rem);
+  --tah-font-size-h2: clamp(1.75rem, 3.5vw, 2.5rem);
+  --tah-font-size-h3: clamp(1.25rem, 2vw, 1.75rem);
+  --tah-font-size-h4: 1.25rem;
+  --tah-font-size-body: 1rem;
+  --tah-font-size-small: 0.875rem;
+  --tah-font-size-caption: 0.75rem;
+  --tah-font-size-label: 0.6875rem;
+
+  /* Spacing scale */
+  --tah-spacing-xs: 0.25rem;
+  --tah-spacing-sm: 0.5rem;
+  --tah-spacing-md: 1rem;
+  --tah-spacing-lg: 1.5rem;
+  --tah-spacing-xl: 2rem;
+  --tah-spacing-xxl: 3rem;
+  --tah-spacing-xxxl: 5rem;
+  --tah-spacing-section: clamp(4rem, 8vw, 7rem);
+
+  /* Radii */
+  --tah-radius-sm: 4px;
+  --tah-radius-md: 8px;
+  --tah-radius-lg: 12px;
+  --tah-radius-xl: 20px;
+  --tah-radius-full: 9999px;
+
+  /* Motion */
+  --tah-transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  --tah-transition-slow: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Shadows — warmer (black with hint of slate) */
+  --tah-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --tah-shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
+  --tah-shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.12);
+  --tah-shadow-xl: 0 24px 64px rgba(15, 23, 42, 0.18);
+
+  /* Container widths */
+  --tah-container: 1200px;
+  --tah-container-narrow: 720px;
+  --tah-container-wide: 1400px;
+}

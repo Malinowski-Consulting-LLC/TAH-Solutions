@@ -1,0 +1,165 @@
+/* ============================================
+TAH Solutions — Base Reset & Globals
+Modern CSS reset + base typography.
+============================================ */
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--tah-font-sans);
+  font-size: var(--tah-font-size-body);
+  line-height: 1.6;
+  color: var(--tah-text);
+  background: var(--tah-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+img, svg, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: var(--tah-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--tah-secondary-dark);
+}
+
+ul, ol {
+  list-style: none;
+}
+
+button, input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+h1, h2, h3 {
+  font-family: var(--tah-font-serif);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--tah-text);
+}
+
+h4, h5, h6 {
+  font-family: var(--tah-font-sans);
+  font-weight: 600;
+}
+
+h1 { font-size: var(--tah-font-size-h1); line-height: 1.1; }
+h2 { font-size: var(--tah-font-size-h2); line-height: 1.15; }
+h3 { font-size: var(--tah-font-size-h3); line-height: 1.25; }
+h4 { font-size: var(--tah-font-size-h4); line-height: 1.35; }
+
+p {
+  margin-bottom: var(--tah-spacing-md);
+  color: var(--tah-text-secondary);
+  line-height: 1.7;
+}
+
+p:last-child { margin-bottom: 0; }
+
+strong, b {
+  font-weight: 600;
+  color: var(--tah-text);
+}
+
+em {
+  font-style: italic;
+  font-family: var(--tah-font-serif);
+  color: var(--tah-secondary);
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background: var(--tah-border);
+  margin: var(--tah-spacing-xl) 0;
+}
+
+::selection {
+  background: var(--tah-secondary);
+  color: #ffffff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--tah-secondary);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Layout primitives */
+.container {
+  width: 100%;
+  max-width: var(--tah-container);
+  margin: 0 auto;
+  padding: 0 var(--tah-spacing-lg);
+}
+
+.text-label {
+  font-size: var(--tah-font-size-label);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tah-secondary-dark);
+  margin: 0;
+}
+
+.divider {
+  width: 48px;
+  height: 1px;
+  background: var(--tah-secondary);
+  border: 0;
+  margin: var(--tah-spacing-md) 0 var(--tah-spacing-xl);
+}
+
+/* Accessibility utility */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-to-content {
+  position: absolute;
+  top: -100px;
+  left: var(--tah-spacing-md);
+  background: var(--tah-primary);
+  color: #ffffff;
+  padding: var(--tah-spacing-sm) var(--tah-spacing-md);
+  border-radius: var(--tah-radius-md);
+  z-index: 9999;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+
+.skip-to-content:focus {
+  top: var(--tah-spacing-md);
+  color: #ffffff;
+}

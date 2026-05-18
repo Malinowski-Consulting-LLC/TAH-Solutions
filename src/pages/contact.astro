@@ -1,0 +1,55 @@
+---
+/**
+ * Contact page — contact.astro
+ * Hero + contact info + ContactForm + CalendarEmbed.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import ContactForm from '../components/ContactForm.astro';
+import CalendarEmbed from '../components/CalendarEmbed.astro';
+import { SITE } from '../consts';
+---
+
+<BaseLayout
+  title="Contact | Schedule a Free EMS Consultation"
+  description="Schedule a free 30-minute consultation with TAH Solutions. We respond within one business day. No obligation, no pressure."
+  ogImage="/images/contact.webp"
+>
+  <Hero
+    variant="contact"
+    label="Contact"
+    titleHtml={`Let&rsquo;s talk about your<br><em>clinical</em> infrastructure`}
+    body="Schedule a free consultation to discuss your agency&rsquo;s needs, or reach out with questions about any of our services."
+  />
+
+  <section style="padding: var(--tah-spacing-section) 0;">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="reveal">
+          <div class="contact-info__item">
+            <h3>Free Consultation</h3>
+            <p>Every engagement starts with a no-cost discovery call. We&rsquo;ll discuss your agency&rsquo;s size, scope, current protocols, and clinical infrastructure needs.</p>
+          </div>
+          <div class="contact-info__item">
+            <h3>Email</h3>
+            <p><a href={`mailto:${SITE.email}`} style="color: var(--tah-secondary-dark); text-decoration: none;">{SITE.email}</a></p>
+          </div>
+          <div class="contact-info__item">
+            <h3>Response Time</h3>
+            <p>We respond to all inquiries within one business day.</p>
+          </div>
+          <div class="contact-info__item">
+            <h3>What to Expect</h3>
+            <p>A focused conversation about your protocols, QA/QI processes, and where we can add the most value. No obligation, no pressure.</p>
+          </div>
+        </div>
+
+        <div class="reveal reveal--d1">
+          <ContactForm />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CalendarEmbed fallbackEmail={SITE.email} />
+</BaseLayout>

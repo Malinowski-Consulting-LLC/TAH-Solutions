@@ -1,0 +1,120 @@
+---
+/**
+ * ContactForm.astro
+ * Contact page form. Posts to a Google Form via a hidden iframe
+ * (to prevent the redirect to Google) and shows an in-place success message.
+ *
+ * Client-side validation is handled by `scripts/form-validation.ts`,
+ * which sanitizes inputs and shows inline errors before the post.
+ */
+import { GOOGLE_FORMS, googleFormActionUrl, SERVICES, SITE } from '../consts';
+
+const formId = 'contact';
+const action = googleFormActionUrl(GOOGLE_FORMS.contact.formId);
+const entries = GOOGLE_FORMS.contact.entries;
+const iframeName = `hidden_iframe_${formId}`;
+---
+
+<div class="landing-form">
+  <h2 style="font-family: var(--tah-font-serif); margin-bottom: var(--tah-spacing-sm); font-size: var(--tah-font-size-h4);">Send a Message</h2>
+  <p style="font-size: var(--tah-font-size-small); color: var(--tah-text-secondary); margin-bottom: var(--tah-spacing-xl);">We&rsquo;ll respond within one business day.</p>
+
+  <div class="form-error-summary" role="alert" data-form-summary={formId} hidden>
+    <p>Please fix the errors below and try again.</p>
+  </div>
+
+  <iframe name={iframeName} id={iframeName} style="display:none;" title="hidden submission target" aria-hidden="true"></iframe>
+
+  <form
+    action={action}
+    method="POST"
+    target={iframeName}
+    onsubmit={`return tahValidate(event, '${formId}', ['name','email','agency','service','message']);`}
+    data-form={formId}
+    novalidate
+  >
+    <div class="form-group">
+      <label class="form-label form-required" for="contact-name">Full Name</label>
+      <input
+        type="text"
+        id="contact-name"
+        name={`entry.${entries.name}`}
+        class="form-input"
+        data-field="name"
+        required
+        autocomplete="name"
+        maxlength="100"
+        aria-describedby="contact-name-error"
+      >
+      <div class="field-error" id="contact-name-error" data-field-error="name" role="alert" hidden></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label form-required" for="contact-email">Email</label>
+      <input
+        type="email"
+        id="contact-email"
+        name={`entry.${entries.email}`}
+        class="form-input"
+        data-field="email"
+        required
+        autocomplete="email"
+        maxlength="254"
+        aria-describedby="contact-email-error"
+      >
+      <div class="field-error" id="contact-email-error" data-field-error="email" role="alert" hidden></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="contact-agency">Agency Name <span style="color: var(--tah-text-muted); font-weight: 400;">(optional)</span></label>
+      <input
+        type="text"
+        id="contact-agency"
+        name={`entry.${entries.agency}`}
+        class="form-input"
+        data-field="agency"
+        autocomplete="organization"
+        maxlength="200"
+        aria-describedby="contact-agency-error"
+      >
+      <div class="field-error" id="contact-agency-error" data-field-error="agency" role="alert" hidden></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="contact-service">Service of Interest <span style="color: var(--tah-text-muted); font-weight: 400;">(optional)</span></label>
+      <select
+        id="contact-service"
+        name={`entry.${entries.service}`}
+        class="form-select"
+        data-field="service"
+        aria-describedby="contact-service-error"
+      >
+        <option value="">Select a service</option>
+        {SERVICES.map((s) => (
+          <option value={s.title}>{s.title}</option>
+        ))}
+        <option value="General Inquiry">General Inquiry</option>
+      </select>
+      <div class="field-error" id="contact-service-error" data-field-error="service" role="alert" hidden></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label form-required" for="contact-message">Message</label>
+      <textarea
+        id="contact-message"
+        name={`entry.${entries.message}`}
+        class="form-textarea"
+        data-field="message"
+        required
+        rows="5"
+        maxlength="5000"
+        aria-describedby="contact-message-error"
+      ></textarea>
+      <div class="field-error" id="contact-message-error" data-field-error="message" role="alert" hidden></div>
+    </div>
+    <button type="submit" class="btn btn--accent" style="width: 100%;">
+      <span class="btn-label">Send Message</span>
+      <span class="spinner" aria-hidden="true"></span>
+    </button>
+  </form>
+
+  <div data-form-success={formId} hidden style="margin-top: var(--tah-spacing-lg); padding: var(--tah-spacing-md); background: rgba(46, 125, 50, 0.08); border-left: 3px solid var(--tah-success); border-radius: 4px;">
+    <p style="margin: 0; color: var(--tah-success); font-weight: 600;">Message sent. We&rsquo;ll respond within one business day.</p>
+  </div>
+</div>

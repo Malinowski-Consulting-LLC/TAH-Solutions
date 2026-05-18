@@ -1,0 +1,75 @@
+---
+/**
+ * Hero.astro
+ * Full-bleed hero with background image per page variant.
+ * Each page sets `variant` to match its CSS class (.hero--home,
+ * .hero--services, etc.), and the bg image is set in components.css.
+ * Logo + tagline for the home variant; compact for inner pages.
+ */
+export interface Props {
+  variant?: 'home' | 'compact' | 'services' | 'about' | 'contact' | 'checklist' | 'waitlist';
+  label?: string;
+  title?: string;
+  /**
+   * Title HTML (e.g. to inject <em> or <br>). Overrides `title` if provided.
+   */
+  titleHtml?: string;
+  body?: string;
+  showLogo?: boolean;
+  showDivider?: boolean;
+  tagline?: string;
+  /** Optional inline override of the bg image. */
+  image?: string;
+}
+
+const {
+  variant = 'compact',
+  label,
+  title,
+  titleHtml,
+  body,
+  showLogo = false,
+  showDivider = false,
+  tagline,
+  image,
+} = Astro.props;
+
+// Build the class list — home variant uses centered layout with logo,
+// everything else uses the compact left-aligned layout.
+const isHome = variant === 'home';
+const isCompact = !isHome;
+const heroClass = `hero hero--${variant}${isCompact ? ' hero--compact' : ''}`;
+const heroStyle = image ? `--hero-image: url('/images/${image}')` : undefined;
+---
+
+<section class={heroClass} style={heroStyle}>
+  <div class="hero__bg"></div>
+  <div class="hero__overlay"></div>
+  <div class="container">
+    {showLogo && isHome && (
+      <div class="hero__logo-wrap reveal">
+        <div class="hero__logo-glow" aria-hidden="true"></div>
+        <img src={`${import.meta.env.BASE_URL}/images/logo.webp`} alt="TAH Solutions" class="hero__logo" width="240" height="240">
+      </div>
+    )}
+    {showDivider && isHome && <hr class="hero__divider reveal reveal--d1" />}
+    {tagline && isHome && <p class="hero__tagline reveal reveal--d2" aria-hidden="true" set:html={tagline}></p>}
+    {label && <p class="hero__label reveal">{label}</p>}
+    {titleHtml ? (
+      <h1 class="reveal reveal--d1" set:html={titleHtml}></h1>
+    ) : (
+      <h1 class="reveal reveal--d1">{title}</h1>
+    )}
+    {body && <p class="hero__body reveal reveal--d2">{body}</p>}
+    {isHome && body && <p class="hero__subtitle reveal reveal--d3">{body}</p>}
+    <div class="hero__actions reveal reveal--d4">
+      <slot name="actions" />
+    </div>
+  </div>
+  {isHome && (
+    <div class="hero__scroll" aria-hidden="true">
+      <span>Scroll</span>
+      <svg class="hero__scroll-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+  )}
+</section>

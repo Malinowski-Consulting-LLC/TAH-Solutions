@@ -1,0 +1,28 @@
+---
+/**
+ * Terms of Service page — terms.astro
+ * Renders the legal/terms.md content from the content collection.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getEntry, render } from 'astro:content';
+
+const entry = await getEntry('legal', 'terms');
+if (!entry) throw new Error('terms.md not found in content collection');
+
+const { Content } = await render(entry);
+const { title, description, updated } = entry.data;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  noindex={entry.data.noindex}
+>
+  <div class="container">
+    <div class="legal-content">
+      <h1>{title}</h1>
+      <p class="updated">Last updated: {updated}</p>
+      <Content />
+    </div>
+  </div>
+</BaseLayout>

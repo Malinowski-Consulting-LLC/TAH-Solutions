@@ -1,0 +1,28 @@
+---
+/**
+ * CTABlock.astro
+ * Centered call-to-action block with label, heading, body, and a slot for buttons.
+ */
+export interface Props {
+  label?: string;
+  title: string;
+  body?: string;
+  labelColor?: 'secondary' | 'muted';
+}
+
+const { label, title, body, labelColor = 'secondary' } = Astro.props;
+const labelStyle = labelColor === 'muted'
+  ? 'color: var(--tah-text-muted);'
+  : 'color: var(--tah-secondary);';
+---
+
+<section class="cta-block">
+  <div class="container">
+    {label && <p class="text-label reveal" style={`${labelStyle} margin-bottom: var(--tah-spacing-md);`}>{label}</p>}
+    <h2 class="reveal reveal--d1">{title}</h2>
+    {body && <p class="reveal reveal--d2">{body}</p>}
+    <div class="reveal reveal--d3" style="margin-top: var(--tah-spacing-xl);">
+      <slot />
+    </div>
+  </div>
+</section>
