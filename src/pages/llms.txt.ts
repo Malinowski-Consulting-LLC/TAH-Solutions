@@ -7,7 +7,6 @@ import type { APIRoute } from 'astro';
 import { SITE, CALENDAR, SERVICES } from '../consts';
 
 export const GET: APIRoute = () => {
-  const pdfUrl = `${SITE.url}/assets/TAH_Solutions_Protocol_Gap_Audit_Checklist_June26.pdf`;
   const calendarUrl = CALENDAR.bookingUrl;
 
   const text = `# ${SITE.name}
@@ -27,8 +26,7 @@ ${SERVICES.map(
 
 ## Resources
 
-- [Free Protocol Gap Audit Checklist](${SITE.url}/checklist): 17 questions, 10 minutes, aligned with NAEMSP and AHA standards.
-- [Download the Checklist PDF directly](${pdfUrl}): no email required.
+- [Free Protocol Gap Audit Checklist](${SITE.url}/checklist): 20 questions, 10 minutes, aligned with NAEMSP and AHA standards. Fill out the form to get the PDF.
 - [EMS Clinical Infrastructure Course Waitlist](${SITE.url}/waitlist): 10 self-paced modules covering protocol design, QA/QI implementation, and standard of care infrastructure. (Coming soon.)
 
 ## Legal

@@ -20,7 +20,6 @@ const pages: Array<{
   { loc: '/waitlist', changefreq: 'monthly', priority: 0.8 },
   { loc: '/terms', changefreq: 'yearly', priority: 0.3 },
   { loc: '/privacy', changefreq: 'yearly', priority: 0.3 },
-  { loc: '/assets/TAH_Solutions_Protocol_Gap_Audit_Checklist_June26.pdf', changefreq: 'yearly', priority: 0.5 },
 ];
 
 export const GET: APIRoute = () => {

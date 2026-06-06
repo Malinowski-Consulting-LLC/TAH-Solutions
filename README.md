@@ -47,7 +47,6 @@ src/
 
 public/                Static files copied to dist/ as-is
 ├── images/            Hero backgrounds (WebP) + logo (WebP) + texas.svg
-├── assets/            PDF downloads (TAH_Solutions_Protocol_Gap_Audit_Checklist.pdf)
 ├── CNAME              Custom domain file (tahsolutions.com)
 ├── .nojekyll          Disable Jekyll processing on GitHub Pages
 ├── favicon.ico

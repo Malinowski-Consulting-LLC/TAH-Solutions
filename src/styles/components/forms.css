@@ -178,3 +178,65 @@ validation states, error messages, spinner.
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+/* Checklist form success state — replaces the in-form success message
+   with a download CTA and follow-up note. Used only by ChecklistForm. */
+.form-success-checklist {
+  margin-top: var(--tah-spacing-lg);
+  padding: var(--tah-spacing-xl);
+  background: rgba(46, 125, 50, 0.06);
+  border-left: 3px solid var(--tah-success);
+  border-radius: var(--tah-radius-md);
+  text-align: center;
+}
+
+.form-success-checklist__title {
+  margin: 0 0 var(--tah-spacing-md) 0;
+  color: var(--tah-success);
+  font-weight: 600;
+  font-size: var(--tah-font-size-h4);
+  font-family: var(--tah-font-serif);
+}
+
+.form-success-checklist__download {
+  margin: 0 auto var(--tah-spacing-md);
+  width: 100%;
+  max-width: 320px;
+}
+
+.form-success-checklist__note {
+  margin: 0;
+  font-size: var(--tah-font-size-small);
+  color: var(--tah-text-secondary);
+  line-height: 1.6;
+}
+
+.form-success-checklist__note a {
+  color: var(--tah-secondary-dark);
+  text-decoration: underline;
+  text-decoration-color: rgba(201, 168, 76, 0.4);
+  text-underline-offset: 2px;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.form-success-checklist__note a:hover {
+  color: var(--tah-primary);
+  text-decoration-color: var(--tah-primary);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .form-success-checklist {
+    animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
