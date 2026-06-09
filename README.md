@@ -76,22 +76,27 @@ All commands are run from the project root. Requires **Node 22+** (Astro 6 requi
 Pushes to `main` that touch `src/`, `public/`, `astro.config.mjs`, `package.json`,
 `tsconfig.json`, or the workflow itself trigger the GitHub Actions deploy.
 The build output (`./dist`) is uploaded as a Pages artifact and deployed to
-GitHub Pages at `https://malinowski-consulting-llc.github.io/TAH-Solutions/`.
+GitHub Pages at `https://www.tahsolutions.com`.
 
-The custom domains `tahsolutions.com` and `www.tahsolutions.com` are served via the `public/CNAME` file.
+The custom domain `www.tahsolutions.com` is served via the `public/CNAME` file.
 
-**One-time GitHub + GoDaddy config required:**
+**One-time GoDaddy DNS config:**
 
 1. **GitHub repo settings** → Pages → Source = "GitHub Actions"
-2. **GitHub repo settings** → Pages → Custom domain = `tahsolutions.com`
+2. **GitHub repo settings** → Pages → Custom domain = `www.tahsolutions.com`
 3. **GitHub repo settings** → Pages → Enforce HTTPS = enabled
-4. **GoDaddy DNS** → 4× A records pointing to GitHub Pages IPs:
-   - `185.199.108.153`
-   - `185.199.109.153`
-   - `185.199.110.153`
-   - `185.199.111.153`
-5. **Astro**: update `astro.config.mjs` to `site: 'https://tahsolutions.com'`
-   and remove the `base: '/TAH-Solutions'` line once the apex domain is live.
+4. **GoDaddy DNS**:
+   - 4× A records (for apex domain):
+     - `185.199.108.153`
+     - `185.199.109.153`
+     - `185.199.110.153`
+     - `185.199.111.153`
+   - 1× CNAME record (for www):
+     - `www` → `malinowski-consulting-llc.github.io`
+   - 1× TXT record (for SPF):
+     - `@` → `v=spf1 include:_spf.google.com ~all`
+   - 1× TXT record (for DKIM):
+     - `google._domainkey` → `v=DKIM1; k=rsa; p=...`
 
 ## Forms
 

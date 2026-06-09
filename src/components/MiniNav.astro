@@ -19,8 +19,8 @@ const { links } = Astro.props;
 ---
 
 <nav class="mini-nav" data-mini-nav aria-label="Site navigation">
-  <a href={`${import.meta.env.BASE_URL}/`}>
-    <img src={`${import.meta.env.BASE_URL}/images/logo.webp`} alt={SITE.name} class="mini-nav__logo" width="120" height="36">
+  <a href={`${import.meta.env.BASE_URL}`}>
+    <img src={`${import.meta.env.BASE_URL}images/logo.webp`} alt={SITE.name} class="mini-nav__logo" width="120" height="36">
   </a>
   <button class="mini-nav__trigger" aria-label="Open navigation menu" data-mini-trigger type="button">
     <span></span>

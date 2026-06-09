@@ -273,3 +273,17 @@ CALENDAR BOOKING — "Schedule with Google" button
   color: var(--tah-text-secondary);
   line-height: 1.6;
 }
+
+/* Calendar embed iframe — full-width container below the booking button. */
+.calendar-embed {
+  max-width: 900px;
+  margin: var(--tah-spacing-xl) auto 0;
+  border: 1px solid var(--tah-border);
+  border-radius: var(--tah-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--tah-shadow-md);
+}
+
+.calendar-embed iframe {
+  display: block;
+}

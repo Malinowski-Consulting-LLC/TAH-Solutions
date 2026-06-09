@@ -1,10 +1,9 @@
 ---
 /**
  * CalendarEmbed.astro
- * "Schedule with Google" appointment booking button.
- * Clicking opens the user's Google Appointment Schedule in a new tab.
- * This is more privacy-friendly than embedding a public iframe —
- * the user's calendar stays private until they actively book a time.
+ * "Schedule with Google" appointment booking button + embedded calendar.
+ * Button opens the public calendar in a new tab.
+ * Embed shows available slots directly on the page.
  */
 import { CALENDAR } from '../consts';
 export interface Props {
@@ -48,12 +47,25 @@ const {
         </svg>
       </a>
       <p class="calendar-booking__note">
-        Opens Google Calendar's booking page in a new tab. You&rsquo;ll pick a time, and Google will send a calendar invite with a Meet link.
+        Opens Google Calendar in a new tab. You&rsquo;ll pick a time, and Google will send a calendar invite.
       </p>
     </div>
 
+    <div class="reveal reveal--d2 calendar-embed">
+      <iframe
+        src={CALENDAR.embedUrl}
+        style="border: 0"
+        width="100%"
+        height="600"
+        frameborder="0"
+        scrolling="no"
+        title="TAH Solutions calendar"
+        loading="lazy"
+      ></iframe>
+    </div>
+
     {fallbackEmail && (
-      <p class="reveal reveal--d2" style="text-align: center; margin-top: var(--tah-spacing-md); font-size: var(--tah-font-size-small); color: var(--tah-text-secondary);">
+      <p class="reveal reveal--d3" style="text-align: center; margin-top: var(--tah-spacing-md); font-size: var(--tah-font-size-small); color: var(--tah-text-secondary);">
         Don&rsquo;t see a time that works? <a href={`mailto:${fallbackEmail}`} style="color: var(--tah-secondary-dark);">Email us</a> and we&rsquo;ll find one.
       </p>
     )}

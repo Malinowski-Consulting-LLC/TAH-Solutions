@@ -23,12 +23,12 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 
 <div class="menu-overlay" data-menu-overlay aria-hidden="true">
   <div class="menu-overlay__inner">
-    <img src={`${import.meta.env.BASE_URL}/images/logo.webp`} alt={SITE.name} class="menu-overlay__logo" width="120" height="120">
+    <img src={`${import.meta.env.BASE_URL}images/logo.webp`} alt={SITE.name} class="menu-overlay__logo" width="120" height="120">
     <nav class="menu-overlay__links" aria-label="Primary navigation">
       {links.map((link) => {
         const normalized = link.href.replace(/\/$/, '') || '/';
         const isActive = currentPath === normalized;
-        const resolvedHref = link.href === '/' ? baseUrl : `${baseUrl}/${link.href.replace(/^\//, '')}`;
+        const resolvedHref = link.href === '/' ? baseUrl : `${baseUrl}${link.href.replace(/^\//, '')}`;
         return (
           <a href={resolvedHref} class={isActive ? 'active' : ''}>{link.label}</a>
         );

@@ -83,8 +83,10 @@ export const STATS = [
 ] as const;
 
 export const CALENDAR = {
-  /** Google Appointment Schedule share link — opens in new tab when user clicks the button. */
-  bookingUrl: 'https://calendar.google.com/calendar/appointments/schedules/APPOINTMENT_SCHEDULE_ID',
+  /** Public calendar link — opens in new tab when user clicks the button. */
+  bookingUrl: 'https://calendar.google.com/calendar/u/1?cid=dGFubmVyQHRhaHNvbHV0aW9ucy5jb20',
+  /** Embeddable calendar URL for iframe display on the contact page. */
+  embedUrl: 'https://calendar.google.com/calendar/embed?src=tanner%40tahsolutions.com&ctz=America%2FChicago',
 } as const;
 
 /**
